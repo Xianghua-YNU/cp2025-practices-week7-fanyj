@@ -57,17 +57,23 @@ def process_image(input_file):
     plt.subplot(1, 3, 1)
     # 学生需要添加显示原始图像的代码
     plt.title('Original Image')
+    plt.subplot(1, 3, 1)
     plt.imshow(img, cmap='gray')
+    plt.title('Original Image')
     # 显示3×3滤波结果
     plt.subplot(1, 3, 2)
     # 学生需要添加显示小滤波器结果的代码
     plt.title('3×3 Filter Result')
+    plt.subplot(1, 3, 2)
     plt.imshow(small_result, cmap='gray')
+    plt.title('3×3 Filter Result')
     # 显示15×15滤波结果
     plt.subplot(1, 3, 3)
     # 学生需要添加显示大滤波器结果的代码
     plt.title('15×15 Filter Result')
+    plt.subplot(1, 3, 3)
     plt.imshow(large_result, cmap='gray')
+    plt.title('15×15 Filter Result')
     # 调整布局并显示
     plt.tight_layout()
     plt.show()
