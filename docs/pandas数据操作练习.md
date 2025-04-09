@@ -9,6 +9,7 @@
 - 学会数据清洗，包括处理缺失值、异常值。
 - 能够进行数据的基本统计分析和复杂的数据转换。
 - 了解如何使用 Pandas 进行数据可视化。
+[data.csv](https://github.com/user-attachments/files/19666156/data.csv)
 
 ## 提交要求
 - `src/pandas_practice.py`: 学生代码模板，包含需要完成的任务。
@@ -16,4 +17,4 @@
 - `data/data.csv`: 由`src/pandas_practice.py`生成并需要被读取的实验数据文件。
 
 
-    
+    [data.csv](https://github.com/user-attachments/files/19666160/data.csv)
