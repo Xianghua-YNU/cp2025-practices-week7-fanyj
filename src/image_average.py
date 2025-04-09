@@ -10,7 +10,7 @@ def create_small_filter():
         numpy.ndarray: 3×3的滤波器矩阵，每个元素值为1/9
     """
     # 学生需要在此实现代码
-    return np.ones((3, 3)) / 9
+    return np.full((3, 3), 1 / 9)
 
 def create_large_filter():
     """
@@ -20,7 +20,7 @@ def create_large_filter():
         numpy.ndarray: 15×15的滤波器矩阵，每个元素值为1/225
     """
     # 学生需要在此实现代码
-    return np.ones((15, 15)) / 225
+    return np.full((15, 15), 1 / 225)
 
 def process_image(input_file):
     """
@@ -46,8 +46,8 @@ def process_image(input_file):
     large_filter = create_large_filter()  # 学生需要调用create_large_filter()
     
     # 3. 应用卷积 - 使用sim.convolve()函数
-    small_result = sim.convolve(img, small_filter, mode='reflect')  # 学生需要实现小滤波器卷积读入的图像
-    large_result = sim.convolve(img, large_filter, mode='reflect')  # 学生需要实现大滤波器卷积读入的图像
+    small_result = sim.convolve(img, small_filter) # 学生需要实现小滤波器卷积读入的图像
+    large_result = sim.convolve(img, large_filter) # 学生需要实现大滤波器卷积读入的图像
     
     # 4. 显示结果 - 使用matplotlib绘制对比图
     # 创建画布
@@ -64,9 +64,9 @@ def process_image(input_file):
     plt.title('3×3 Filter Result')
     
     # 显示15×15滤波结果
-    plt.subplot(1, 3, 3)
-    plt.imshow(large_result, cmap='gray')
-    plt.title('15×15 Filter Result')
+    plt.subplot(1, 3, 2)
+    plt.imshow(small_result, cmap='gray')
+    plt.title('3×3 Filter Result')
     
     # 调整布局并显示
     plt.tight_layout()
