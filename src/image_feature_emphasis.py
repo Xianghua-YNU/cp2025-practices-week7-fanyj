@@ -15,7 +15,8 @@ def load_stress_fibers():
         使用np.loadtxt加载文本格式的数据
     """
     # 学生需要实现：使用np.loadtxt加载数据文件
-    pass
+    # Load the data from the specified file
+    return np.loadtxt('data/stressFibers.txt')
 
 def create_gauss_filter():
     """
@@ -32,7 +33,19 @@ def create_gauss_filter():
     # 学生需要实现：
     # 1. 使用np.arange和np.meshgrid创建坐标网格
     # 2. 根据公式计算高斯函数值
-    pass
+    # Create coordinate ranges
+    x = np.arange(-25, 26)
+    y = np.arange(-25, 26)
+    
+    # Create meshgrid
+    X, Y = np.meshgrid(x, y)
+    
+    # Calculate Gaussian function
+    sigma_x_sq = 5  # σ_x² = 5
+    sigma_y_sq = 45  # σ_y² = 45
+    gauss = np.exp(-0.5 * (X**2 / sigma_x_sq + Y**2 / sigma_y_sq))
+    
+    return gauss
 
 def create_combined_filter(gauss_filter):
     """
@@ -51,7 +64,15 @@ def create_combined_filter(gauss_filter):
     # 学生需要实现：
     # 1. 定义3x3拉普拉斯滤波器
     # 2. 使用scipy.ndimage.convolve进行卷积
-    pass
+    # Define Laplacian kernel
+    laplacian = np.array([[0, -1, 0],
+                         [-1, 4, -1],
+                         [0, -1, 0]])
+    
+    # Convolve Gaussian with Laplacian
+    combined = sim.convolve(gauss_filter, laplacian, mode='constant', cval=0)
+    
+    return combined
 
 def plot_filter_surface(filter, title):
     """
@@ -69,7 +90,23 @@ def plot_filter_surface(filter, title):
     # 1. 创建fig和3D axes
     # 2. 使用plot_surface绘制表面
     # 3. 设置标题并显示图形
-    pass
+    # Create figure and 3D axes
+    fig = plt.figure(figsize=(10, 6))
+    ax = fig.add_subplot(111, projection='3d')
+    
+    # Create coordinate grid for plotting
+    x = np.arange(filter.shape[1])
+    y = np.arange(filter.shape[0])
+    X, Y = np.meshgrid(x, y)
+    
+    # Plot surface
+    surf = ax.plot_surface(X, Y, filter, cmap='viridis')
+    
+    # Add title and colorbar
+    ax.set_title(title)
+    fig.colorbar(surf)
+    
+    plt.show()
 
 def process_and_display(stressFibers, filter, vmax_ratio=0.5):
     """
@@ -87,7 +124,18 @@ def process_and_display(stressFibers, filter, vmax_ratio=0.5):
     # 1. 使用scipy.ndimage.convolve应用滤波器
     # 2. 使用plt.imshow显示结果，设置vmin=0, vmax=vmax_ratio*最大值
     # 3. 添加colorbar并显示图形
-    pass
+    # Apply the filter
+    processed = sim.convolve(stressFibers, filter, mode='constant', cval=0)
+    
+    # Display the result
+    plt.figure(figsize=(10, 6))
+    plt.imshow(processed, cmap='gray', 
+              vmin=0, vmax=vmax_ratio * np.max(processed))
+    plt.colorbar()
+    plt.title('Filtered Image')
+    plt.show()
+    
+    return processed
 
 def main():
     """
@@ -109,19 +157,43 @@ def main():
     # 1. 使用plt.imshow显示滤波器
     # 2. 添加标题和colorbar
     # 3. 调用plot_filter_surface绘制3D图
+    # Display Gaussian filter
+    plt.figure(figsize=(10, 6))
+    plt.imshow(gauss_filter, cmap='viridis')
+    plt.colorbar()
+    plt.title('Gaussian Filter')
+    plt.show()
     
+    # 3D surface plot
+    plot_filter_surface(gauss_filter, 'Gaussian Filter Surface')
     # 任务(b): 创建组合滤波器并比较
     combined_filter = create_combined_filter(gauss_filter)
     # 学生需要添加显示代码
+    # Display combined filter
+    plt.figure(figsize=(10, 6))
+    plt.imshow(combined_filter, cmap='viridis')
+    plt.colorbar()
+    plt.title('Combined Gaussian-Laplacian Filter')
+    plt.show()
     
+    # 3D surface plot
+    plot_filter_surface(combined_filter, 'Combined Filter Surface')
     # 任务(c): 应用垂直滤波器
     # 学生需要添加处理代码
-    
+    # 任务(c): 应用垂直滤波器 (original Gaussian)
+    print("Processing with vertical filter (Gaussian)")
+    processed_vert = process_and_display(stressFibers, gauss_filter)
     # 任务(d): 应用水平滤波器
     # 学生需要添加处理代码
-    
+    # 任务(d): 应用水平滤波器 (rotated Gaussian)
+    print("Processing with horizontal filter (rotated Gaussian)")
+    # Rotate the Gaussian filter by 90 degrees for horizontal emphasis
+    gauss_horizontal = np.rot90(gauss_filter)
+    processed_horz = process_and_display(stressFibers, gauss_horizontal)
     # 选做: 45度方向滤波器
     # 学生需要添加处理代码
-
+    # 选做: 45度方向滤波器 (combined filter)
+    print("Processing with 45-degree filter (combined)")
+    processed_combined = process_and_display(stressFibers, combined_filter)
 if __name__ == "__main__":
     main()
