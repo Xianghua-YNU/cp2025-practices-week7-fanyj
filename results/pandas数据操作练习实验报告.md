@@ -111,7 +111,8 @@ std     0.951190   6.076722
 
 
 ### 任务 5: 数据可视化
-![成绩分布直方图](histogram.png)
+![成绩分布直方图](histogram.png)![IMG_20250411_164847](https://github.com/user-attachments/assets/33c7038e-bb2d-4489-86fb-b54ebdc87bb1)
+
 
 ### 任务 6: 数据保存
 处理后的数据已保存为：processed_students.csv
